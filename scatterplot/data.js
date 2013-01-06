@@ -1,8 +1,8 @@
 //Create the JSON dataset for scatterplots.
 var dataset = [];
 var numDataPoints = 1000;
-var xRange = Math.random() * 1000;	//Max range of new x values
-var yRange = Math.random() * 1000;	//Max range of new y values
+var xRange = Math.random() * 1000;	
+var yRange = Math.random() * 1000;	
 for (var i = 0; i < numDataPoints; i++) {			
 	var x = Math.round(Math.random() * xRange);	
 	var y = Math.round(Math.random() * yRange);	

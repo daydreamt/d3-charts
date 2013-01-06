@@ -1,50 +1,56 @@
-<!DOCTYPE html>
-    <head>
-        <head><title>D3 Scatterplot</title></head>
-        <script src="http://d3js.org/d3.v2.js"></script>
-        <style type="text/css">
-            .axis path,
-            .axis line {
-                fill: none;
-                stroke: black;
-                shape-rendering: crispEdges;
-            }
-            .axis text {
-                font-family: sans-serif;
-                font-size: 11px;
-            }
-            
-            .circle {
-                stroke: grey;
-                fill: black;
-            }
-            
-        </style>
-    </head>
+<!DOCTYPE HTML>
+    <html>
+        
+    
+        <head> <title> d3 bubblechart </title>
+               <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+               
+               <style>
+                .axis path,
+                .axis line {
+                    fill: none;
+                    stroke: black;
+                    shape-rendering: crispEdges;
+                }
+                .axis text {
+                    font-family: sans-serif;
+                    font-size: 11px;
+                }
+                
+                .circle {
+                    stroke: grey;
+                    fill: blue;
+                }
+               </style>
+        </head>
     <body>
-        <p> This is a scatterplot. It visualizes two variables.</p>
+        <p>
+            This is, like, a scatterplot for three variables! The third variable is the radius.
+            I should merge this one with the scatterplot, and have scatterplots served with a radius of two
+            or some other optimal one, as a special case of this one. Seriously.
+        </p>
+        
         <script type="text/javascript">
             
-            //read the data, store them in global variables
+                      
             var data;
             var xAxisName;
             var yAxisName;
+            
             d3.json("JSON", function (json) {
-                console.log("I read " + json.data.length + " data points.");
                 data = json.data;
-                visualize(data); //then start the visualization
-                
+                xAxisName = "x value";
+                yAxisName = "y value";
+                console.log(" I read " + data.length + "data points.");
+                visualize(data);
             });
             
-            function visualize(data)
-            {
-                 //dimensions of the chart
-                 var w = 720;
-                 var h = 640;
-                 //empty area between last element and chart borders
-                 var padding = 20;
-                 
-                 //the format of the data
+            function visualize(data) {
+                var w = 720;
+                var h = 640;
+                var padding = 30;
+                
+                //the format of the data
                  var format = d3.format(".0%");
                  
                  //will use this one below
@@ -95,7 +101,7 @@
                 .append("circle")
                 .attr("cx", function(d) { return xScale(d.x);})
                 .attr("cy", function(d) { return yScale(d.y);})
-                .attr("r", 2) //arbitrary. big enough? scale automatically?
+                .attr("r", function(d) { return d.r;}) //arbitrary. big enough? scale automatically?
                 .attr("x", getX)
                 .attr("x", getY)
                 .attr("class","circle")
@@ -115,15 +121,21 @@
                     .call(yAxis);
                 
             
-            }
+            
         
-
-            
-            
-            
-            
-            
+                
+            }
             
             
         </script>
+        
     </body>
+    
+    
+    
+    
+    
+    
+    
+    
+    </html>
