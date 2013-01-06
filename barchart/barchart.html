@@ -7,14 +7,15 @@
 
                 
                 .bar {
-                    fill: yellow;
+                    fill: #543B5E;
                     stroke: white;
                     
                 }
                 .bar:hover {
-                    fill:purple;
-                    
+                    stroke:black;
                 }
+
+                
                 
             </style>
         </head>
@@ -74,17 +75,7 @@
                             return yScale(d.score);
                         })
                         .attr("class", "bar");
-                        
-                        //add the labels
-                        svg.selectAll("text")
-                            .data(data)
-                            .enter().append("text")
-                            .attr("x", function(d, i) { return i.name;})
-                            .attr("y", function(d) { return h - yScale(d.score);})
-                            .attr("dx", -3) //padding right
-                            .attr("dy", ".35em") //vertical-align: middle
-                            .attr("text-anchor", "end") //text-align: right
-                            .text(2)
+    
                             
                     
                     
