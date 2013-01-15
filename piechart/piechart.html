@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+    
+    <head>
+        <title>A Pie Chart, in d3</title>
+        <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+        <style type="text/css">
+            .slice {
+            }
+            .slice:hover {
+                stroke: grey;
+            }
+            .data-title {
+                font-family: fantasy;
+                /* I HAVE NEVER USED THIS FONT BEFORE! */
+                dy:.35em;
+                text-anchor: middle;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <p>Pie charts aren't really that useful, but we promised.</p>
+        <script type="text/javascript">
+            var dataset;
+
+            d3.json("JSON", function (json) {
+                dataset = json.charts;
+                console.log("BOO!!! You suck, pie chart!");
+                console.log("Also");
+                dataset.map(function (d) {
+                    console.log(d.name + " - " + d.score);
+                });
+
+                visualize(dataset);
+
+            });
+
+
+            function visualize(dataset) {
+                var w = 620;
+                var h = 480;
+
+
+
+                var radius = Math.min(w, h) / 2; //change 2 to 1.4. It's hilarious.
+
+                //TODO: Generate colors randomly, but have them be apart.
+
+                var color = d3.scale.ordinal().range(["#7b4173", "#9ecae1", "#ff7f0e", "#bcbd22", "#8c564b", "#d62728"])
+
+                var arc = d3.svg.arc() //each datapoint will create one later.
+                .outerRadius(radius - 20)
+                    .innerRadius(0);
+                //well, if you set this to not 0 it becomes a donut chart!
+
+
+                var pie = d3.layout.pie()
+                    .sort(function (d) {
+                    return d.score;
+                })
+                    .value(function (d) {
+                    return d.score;
+                });
+
+
+                var svg = d3.select("body").append("svg")
+                    .attr("width", w)
+                    .attr("height", h)
+                    .attr("class", "chart")
+                    .append("g") //someone to transform. Groups data.
+                .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
+                //transform to the center.
+
+
+                //create the slices
+                var slices = svg.selectAll(".arc")
+                    .data(pie(dataset))
+                    .enter().append("g")
+                    .attr("class", "slice");
+
+                //and fill them
+                slices.append("path")
+                    .attr("d", arc)
+                    .style("fill", function (d, i) {
+                    return color(i);
+                });
+
+                //add text, even
+                slices.append("text")
+                    .attr("transform", function (d) {
+                    return "translate(" + arc.centroid(d) + ")";
+                })
+                    .attr("class", "data-title")
+                    .text(function (d) {
+                    return d.data.name;
+                });
+            }
+        </script>
+    </body>
+
+</html>
