@@ -14,6 +14,32 @@
                 .bar:hover {
                     stroke:black;
                 }
+                
+                
+                .axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+                                
+                                
+                                
+                                
+			}
+                
+                #container {
+                    margin: 10px;
+                    padding:10px;
+                    border: 10px;
+                    
+                }
+                
+                svg {
+                    margin:10px; 
+                    padding:10px;
+                    border:10px
+                }
+                
+                
 
                 
                 
@@ -24,6 +50,8 @@
             
             <p>The y axis variable has to be numeric, right?
             Also, no random value script for this one.</p>
+            
+            <div id="container"></div>
             <script type="text/javascript">
                 
                 var data;
@@ -43,9 +71,10 @@
                     //dimensions
                     var w = 700;
                     var h = 400;
+                    var padding = 10;
                     
                     //the svg
-                    var svg = d3.select("body")
+                    var svg = d3.select("#container")
                                 .append("svg")
                                 .attr("class", "chart")
                                 .attr("width", w)
@@ -54,11 +83,15 @@
                     //the scales
                     var xScale = d3.scale.ordinal()
                                     .domain(d3.range(data.length))
-                                    .rangeRoundBands([0, w], 0.02);
+                                    .rangeRoundBands([  padding, w - padding], 0.03);
                                     
                     var yScale = d3.scale.linear()
                                         .domain([0, d3.max(data, function(d) { return d.score;})])
-                                        .range([0, h]);
+                                        .range([padding , h - padding]);
+                    
+                    //the axes
+                    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(3);
+                    var yAxis = d3.svg.axis().scale(yScale).orient("left").ticks(3);
                     
                     
                     
@@ -76,10 +109,15 @@
                         })
                         .attr("class", "bar");
     
-                            
-                    
-                    
-                }
+                    //create axes
+                    svg.append("g").attr("class", "Axis")
+                        .attr("transform", "translate(0," + (h - padding ) + ")")
+                        .call(xAxis);
+                        
+                    svg.append("g").attr("class", "Axis")
+                        .attr("transform", "translate(" + padding + ")")
+                        .call(yAxis);     
+                    }
                 
                 
                 
