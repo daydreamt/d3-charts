@@ -2,6 +2,7 @@
     <html>
         <head>
             <title>A bar chart with d3.</title>
+            <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.8.0/build/cssreset/cssreset-min.css">
             <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
             <style type="text/css">
 
@@ -16,6 +17,7 @@
                 }
                 
                 
+                .axis path,
                 .axis line {
 				fill: none;
 				stroke: black;
@@ -28,6 +30,7 @@
                 
                 #container {
                     margin: 10px;
+                    
                     padding:10px;
                     border: 10px;
                     
@@ -69,28 +72,31 @@
                 
                 function visualize (data) {
                     //dimensions
-                    var w = 700;
-                    var h = 400;
-                    var padding = 10;
+                    var padding = 40;
+                    var margin = {top:20, right: 10, bottom: 20, left:10};
+                    var w = 700 - margin.left - margin.right;
+                    var h = 400 - margin.top - margin.bottom;
                     
                     //the svg
                     var svg = d3.select("#container")
                                 .append("svg")
                                 .attr("class", "chart")
-                                .attr("width", w)
-                                .attr("height", h);
+                                .attr("width", w + margin.left + margin.right)
+                                .attr("height", h + margin.top + margin.bottom)
+                                .append("g")
+                                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
                                 
                     //the scales
                     var xScale = d3.scale.ordinal()
                                     .domain(d3.range(data.length))
-                                    .rangeRoundBands([  padding, w - padding], 0.03);
+                                    .rangeRoundBands([0, w], 0.03);
                                     
                     var yScale = d3.scale.linear()
-                                        .domain([0, d3.max(data, function(d) { return d.score;})])
-                                        .range([padding , h - padding]);
+                                        .domain([d3.max(data, function(d) { return d.score;}), 0])
+                                        .range([h , 0]);
                     
                     //the axes
-                    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(3);
+                    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5);
                     var yAxis = d3.svg.axis().scale(yScale).orient("left").ticks(3);
                     
                     
@@ -110,17 +116,29 @@
                         .attr("class", "bar");
     
                     //create axes
-                    svg.append("g").attr("class", "Axis")
-                        .attr("transform", "translate(0," + (h - padding ) + ")")
-                        .call(xAxis);
+                    
+                    svg.append("g").attr("class", "x axis")
+                   .attr("transform", "translate(0," + h + ")").call(xAxis);
                         
-                    svg.append("g").attr("class", "Axis")
-                        .attr("transform", "translate(" + padding + ")")
-                        .call(yAxis);     
-                    }
+/*                    svg.append("g").attr("class", "y axis")
+                        .attr("transform", "translate(" + padding  + ")")
+                        .call(yAxis);     */
+
+                    svg.append("g")
+                      .attr("class", "y axis")
+                      .call(yAxis)
+                      .append("text")
+                      .attr("transform", "rotate(-90)")
+                      
+                      .attr("y", 6)
+                      .attr("dy", ".71em")
+                      .style("text-anchor", "end")
+                      .text(xAxisName); 
+                   
+ 
+
                 
-                
-                
+                }
             </script>
         </body>
         
