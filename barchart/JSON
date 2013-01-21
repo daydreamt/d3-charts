@@ -1,12 +1,12 @@
 {
     "users": [
         {
-            "name": "daydreamt",
-            "score": 100
-        },
-        {
             "name": "warchicken",
             "score": 30
+        },
+        {
+            "name": "daydreamt",
+            "score": 50
         },
         {
             "name": "Anas2001",
