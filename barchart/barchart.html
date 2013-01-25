@@ -14,6 +14,7 @@
                 }
                 .bar:hover {
                     stroke:black;
+                    
                 }
                 
                 
@@ -61,9 +62,12 @@
                 var data;
                 var xAxisName;
                 var yAxisName;
+                var jso;
                 d3.json("JSON", function (json) {
                     data = json.users;
-                    xAxisName = "users";
+                    jso = json;
+                    console.log(jso);
+                    xAxisName = "user";
                     yAxisName = "fantasticness"; //these will be read automatically
                     console.log("daydreamt is the greatest, after all.");
                     //but this will probably always be printed
@@ -94,13 +98,16 @@
                                     
                     
 
+                    function getScore(d) {
+                        return d.score;
+                    }
                     var yScale = d3.scale.linear()
-                                        .domain([0, d3.max(data, function(d) { return d.score;})])
-                                        .range([h, 0]);
+                                        .domain([d3.max(data, getScore), 0])
+                                        .range([0, h]);
                     
                     //the axes
-                    var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5);
-                    var yAxis = d3.svg.axis().scale(yScale).orient("left").ticks(2);
+                    var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+                    var yAxis = d3.svg.axis().scale(yScale).orient("left");
                     
                     
                     
@@ -111,10 +118,10 @@
                         .enter()
                         .append("rect")
                         .attr("x", function(d, i) { return xScale(i);})
-                        .attr("y", function(d) { return h - yScale(d.score);})
+                        .attr("y", function(d) { return yScale(d.score);})
                         .attr("width", xScale.rangeBand())
                         .attr("height", function(d) {
-                            return yScale(d.score);
+                            return h - yScale(d.score);
                         })
                         .attr("class", "bar");
     
@@ -136,7 +143,7 @@
                       .attr("y", 6)
                       .attr("dy", ".71em")
                       .style("text-anchor", "end")
-                      .text(xAxisName); 
+                      .text(yAxisName); 
                    
  
 
