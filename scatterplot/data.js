@@ -12,11 +12,11 @@ for (var i = 0; i < numDataPoints; i++) {
 			
 //great, now we have the dataset, but not the JSON
 var JSON = "{ "
-var charttype = "\"ScatterPlot\""
+var chartType = "\"Scatterplot\""
 var attr1 = "\"x\""
 var attr2 = "\"y\""
 
-JSON += "\n \"charttype\": " + charttype + "\n, \"attr1\": " + attr1 + "\n, \"attr2\": " + attr2 + "\n, \"data\": ["
+JSON += "\n \"charttype\": " + charttype + "\n, \"attribute1\": " + attr1 + "\n, \"attribute2\": " + attr2 + "\n, \"data\": ["
 
 for (var i = 0; i < dataset.length; i++) {
 	JSON += "\n { \"x\": " + dataset[i][0] + ", \"y\":"  + dataset[i][1] + " }";

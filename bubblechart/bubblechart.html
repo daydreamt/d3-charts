@@ -62,6 +62,10 @@
                      return d.y;
                  };
                  
+                 function getR(d) {
+                    return d.r;
+                 }
+                 
                 //the scales
                 var xScale = d3.scale.linear()
                                                 .domain([d3.min(data, getX), d3.max(data, getX)])
@@ -69,6 +73,11 @@
                 var yScale = d3.scale.linear()
                                             .domain([d3.min(data, getY), d3.max(data, getY)])
                                             .range([h - padding, padding]);
+                                            
+                //now a scale that maps the radius, too!
+                var rScale = d3.scale.linear()
+                                            .domain([d3.min(data, getR), d3.max(data, getR)])
+                                            .range([0.6, 5])
             
                 //the axes
                 var xAxis = d3.svg.axis()
@@ -101,7 +110,7 @@
                 .append("circle")
                 .attr("cx", function(d) { return xScale(d.x);})
                 .attr("cy", function(d) { return yScale(d.y);})
-                .attr("r", function(d) { return d.r;}) //arbitrary. big enough? scale automatically?
+                .attr("r", function(d) { return rScale(d.r);}) 
 
                 .attr("class","circle")
                 .append("svg:title")

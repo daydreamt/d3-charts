@@ -1,7 +1,7 @@
 { 
- "charttype": "ScatterPlot"
-, "attr1": "x"
-, "attr2": "y"
+ "chartType": "Scatterplot"
+, "attribute1": "x"
+, "attribute2": "y"
 , "data": [
  { "x": 311, "y":560 },
  { "x": 307, "y":610 },

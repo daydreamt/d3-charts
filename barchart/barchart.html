@@ -63,22 +63,36 @@
                 var xAxisName;
                 var yAxisName;
                 var jso;
-                d3.json("JSON", function (json) {
-                    data = json.users;
-                    jso = json;
-                    console.log(jso);
-                    xAxisName = "user";
-                    yAxisName = "fantasticness"; //these will be read automatically
-                    console.log("daydreamt is the greatest, after all.");
-                    //but this will probably always be printed
-                    visualize(data);
+                
+                function getX(d) {
+                    return d[xAxisName];
+                }
+                function getY(d) {
+                    return d[yAxisName];
+                }
+                d3.json("response.json", function (json) {
+
+    
+    console.log(json);
+    console.log(json.data);
+   
+        //console.log("I read " + json.data.length + " data points.");
+        xAxisName = json.attribute1;
+        yAxisName = json.attribute2;
+        console.log("yAxisName=" + yAxisName);
+        data = json.data;
+        data.map(function(d) { console.log(getX(d));});
+      //  data.map(function(i) {console.log(i);});
+        visualize(data); //then start the visualization
+
+ 
                     
                 });
                 
                 function visualize (data) {
                     //dimensions
                     var padding = 40;
-                    var margin = {top:30, right: 30, bottom: 30, left:50};
+                    var margin = {top:30, right: 30, bottom: 30, left:100};
                     var w = 700 - margin.left - margin.right;
                     var h = 400 - margin.top - margin.bottom;
                     
@@ -98,11 +112,9 @@
                                     
                     
 
-                    function getScore(d) {
-                        return d.score;
-                    }
+
                     var yScale = d3.scale.linear()
-                                        .domain([d3.max(data, getScore), 0])
+                                        .domain([d3.max(data, getY), 0])
                                         .range([0, h]);
                     
                     //the axes
@@ -118,10 +130,10 @@
                         .enter()
                         .append("rect")
                         .attr("x", function(d, i) { return xScale(i);})
-                        .attr("y", function(d) { return yScale(d.score);})
+                        .attr("y", function(d) { return yScale(getY(d));})
                         .attr("width", xScale.rangeBand())
                         .attr("height", function(d) {
-                            return h - yScale(d.score);
+                            return h - yScale(getY(d));
                         })
                         .attr("class", "bar");
     

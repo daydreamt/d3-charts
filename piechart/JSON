@@ -1,4 +1,7 @@
 {
+	"charttype": "piechart" ,
+	"attr1": "name" ,
+	"attr2": "score" ,
     "charts": [
         {
             "name": "scatterplot",
